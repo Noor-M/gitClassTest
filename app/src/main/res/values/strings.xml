@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Guardian</string>
     <string name="tv">No Data please try again</string>
+    <string name="preference_key">target_section</string>
+    <string name="preference_title">Section</string>
+    <string name="menu_title">Setting</string>
+    <string name="news_image">News thumbnail</string>
 </resources>

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.AsyncTaskLoader;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,12 +20,13 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class NewsAsyncTask extends AsyncTaskLoader<ArrayList<News>> {
-    public static final String urlString = "https://content.guardianapis.com/search?api-key=f93aca36-2803-498b-afaa-32951e857f4a&show-fields=thumbnail,byline";
+    private String string_url;
     private ArrayList<News> newsArticleArrayList = new ArrayList<>();
-    private static final String TAG = "NewsAsyncTask";
 
-    public NewsAsyncTask(@NonNull Context context) {
+     NewsAsyncTask(@NonNull Context context, String string_url) {
         super(context);
+        this.string_url=string_url;
+
     }
 
     @Nullable
@@ -35,7 +35,7 @@ public class NewsAsyncTask extends AsyncTaskLoader<ArrayList<News>> {
         StringBuilder stringBuilder = new StringBuilder();
         URL url;
         try {
-            url = new URL(urlString);
+            url = new URL(string_url);
 
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestMethod("GET");
@@ -51,7 +51,6 @@ public class NewsAsyncTask extends AsyncTaskLoader<ArrayList<News>> {
                 stringBuilder.append(line);
                 line = bufferedReader.readLine();
             }
-            Log.v(TAG, stringBuilder.toString());
             JSONObject root = new JSONObject(stringBuilder.toString());
             JSONObject response = root.getJSONObject("response");
             JSONArray results = response.getJSONArray("results");
